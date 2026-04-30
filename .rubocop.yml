@@ -1,0 +1,23 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
+
+AllCops:
+  TargetRubyVersion: 3.4
+  DisplayCopNames: true
+  NewCops: enable
+  Include:
+    - '**/*.rake'
+    - '**/*.rb'
+    - 'Capfile'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'config.ru'
+  Exclude:
+    - 'bin/**/*'
+    - 'config/environments/*.rb'
+    - 'db/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
