@@ -1,0 +1,13 @@
+<div class="container py-4 report-run-page">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Report Run #<%= @report_run.id %></h1>
+    <div class="d-flex gap-2">
+      <%= link_to "New report", new_report_run_path, class: "btn btn-outline-secondary btn-sm" %>
+      <%= link_to "Past reports", report_runs_path, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
+  </div>
+
+  <%= turbo_stream_from @report_run %>
+
+  <%= render 'state_frame', report_run: @report_run %>
+</div>

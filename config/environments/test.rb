@@ -21,12 +21,14 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
   config.cache_store = :null_store
+  config.active_job.queue_adapter = :test
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
+  config.active_storage.service = :test
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

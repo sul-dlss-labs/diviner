@@ -21,15 +21,16 @@ group :development do
 end
 
 group :deployment do
-  gem 'capistrano-maintenance'
-  # gem 'capistrano-passenger' # Use puma for now for an easier deployment
-  gem 'capistrano3-puma'
-  gem 'capistrano-rails'
-  gem 'dlss-capistrano'
+  gem 'capistrano-maintenance', require: false
+  gem 'capistrano-passenger', require: false
+  gem 'capistrano-rails', require: false
+  gem 'dlss-capistrano', require: false
 end
 
 gem 'bootsnap', require: false
+gem 'config'
 gem 'cssbundling-rails'
+gem 'csv'
 gem 'googleauth'
 gem 'honeybadger'
 gem 'importmap-rails'
@@ -39,5 +40,8 @@ gem 'propshaft'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.1.3'
 gem 'ruby_llm'
+gem 'solid_cable'
+gem 'solid_cache'
+gem 'solid_queue'
 gem 'stimulus-rails'
 gem 'turbo-rails'

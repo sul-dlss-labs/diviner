@@ -1,2 +1,5 @@
 web: env RUBY_DEBUG_OPEN=true bin/rails server
 css: yarn watch:css
+jobs: bin/jobs
+dsa: ssh -N -L 5433:localhost:5432 dor-services-app-db-qa-a.stanford.edu
+db: docker compose up db

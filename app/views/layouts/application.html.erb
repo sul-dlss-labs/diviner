@@ -11,19 +11,36 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <%= link_to "Diviner", root_path, class: "navbar-brand" %>
+        <div class="navbar-nav">
+          <%= link_to "Report Builder", new_report_run_path, class: "nav-link" %>
+        </div>
+      </div>
+    </nav>
+
+    <main class="py-3">
+      <div class="container">
+        <% if notice.present? %>
+          <div class="alert alert-success"><%= notice %></div>
+        <% end %>
+
+        <% if alert.present? %>
+          <div class="alert alert-danger"><%= alert %></div>
+        <% end %>
+      </div>
+
+      <%= yield %>
+    </main>
   </body>
 </html>

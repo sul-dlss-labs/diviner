@@ -12,8 +12,7 @@ require 'capistrano/scm/git'
 require 'capistrano/bundler'
 require 'capistrano/honeybadger'
 require 'capistrano/maintenance'
-# require 'capistrano/passenger' # Using puma for now for an easier deployment
-require 'capistrano/puma'
+require 'capistrano/passenger'
 require 'capistrano/rails'
 require 'dlss/capistrano'
 

@@ -1,0 +1,138 @@
+<div class="card mb-3 shadow-sm">
+  <div class="card-header">Summary</div>
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <div class="summary-pill">
+          <div class="summary-label">Status</div>
+          <div class="summary-value"><%= report_run.status %></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="summary-pill">
+          <div class="summary-label">Hits</div>
+          <div class="summary-value"><%= report_run.row_count %></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="summary-pill">
+          <div class="summary-label">SQL generation time</div>
+          <div class="summary-value"><%= formatted_duration(report_run.sql_generation_duration_ms) %></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="summary-pill">
+          <div class="summary-label">Report run time</div>
+          <div class="summary-value"><%= formatted_duration(report_run.execution_duration_ms) %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if report_run.generating? %>
+  <div class="alert alert-info thinking-banner" role="status">
+    <div class="spinner-border spinner-border-sm" aria-hidden="true"></div>
+    <span>Generating SQL in the background...</span>
+  </div>
+<% elsif report_run.running? %>
+  <div class="alert alert-info thinking-banner" role="status">
+    <div class="spinner-border spinner-border-sm" aria-hidden="true"></div>
+    <span>Running report in the background...</span>
+  </div>
+<% end %>
+
+<div class="row g-3 align-items-start">
+  <div class="col-lg-8">
+    <%= form_with model: report_run, url: report_run_path(report_run), method: :patch, class: "card mb-3 shadow-sm" do |f| %>
+      <div class="card-header">Report Request</div>
+      <div class="card-body">
+        <div class="mb-0">
+          <%= f.label :user_request, "Describe the report", class: "form-label" %>
+          <%= f.text_area :user_request, rows: 7, class: "form-control" %>
+        </div>
+      </div>
+      <div class="card-footer d-flex gap-2 flex-wrap">
+        <%= f.submit "Update Request", class: "btn btn-outline-primary" %>
+        <%= f.button "Update & Run", name: :run_now, value: '1', class: "btn btn-primary" %>
+        <%= f.button "Regenerate SQL",
+          formaction: regenerate_sql_report_run_path(report_run),
+          formmethod: :post,
+          class: "btn btn-outline-secondary" %>
+        <%= f.button "Run Generated SQL",
+          formaction: run_report_run_path(report_run),
+          formmethod: :post,
+          disabled: report_run.generated_sql.blank? || report_run.in_progress?,
+          class: "btn btn-success" %>
+        <% if report_run.succeeded? && report_run.row_count.positive? %>
+          <%= link_to "Download CSV", download_report_run_path(report_run, format: :csv), class: "btn btn-outline-secondary" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if report_run.error_message.present? %>
+      <div class="alert alert-danger"><strong>Error:</strong> <%= report_run.error_message %></div>
+    <% end %>
+
+    <% if report_run.succeeded? %>
+      <div class="card shadow-sm">
+        <div class="card-header">Report Results (click to load full Cocina)</div>
+        <div class="card-body p-0">
+          <% if report_run.rows.any? %>
+            <div class="list-group list-group-flush">
+              <% report_run.rows.each_with_index do |row, index| %>
+                <details class="list-group-item result-item" <%= index.zero? ? 'open' : '' %>>
+                  <% druid = druid_from_row(row) %>
+                  <summary class="result-summary">
+                    <span class="result-index">#<%= index + 1 %></span>
+                    <span class="result-druid"><%= druid.presence || '(no identifier in row)' %></span>
+                  </summary>
+                  <% cocina_payload = cocina_json_from_row(row) %>
+                  <% warning = cocina_enrichment_warning_from_row(row) %>
+
+                  <% if warning.present? %>
+                    <div class="alert alert-warning mt-2 mb-2 py-2" role="alert">
+                      <%= warning %>
+                    </div>
+                  <% end %>
+
+                  <% if cocina_payload.present? %>
+                    <div class="result-json mt-2">
+                      <%= pretty_cocina_json(cocina_payload) %>
+                    </div>
+                  <% elsif druid.present? %>
+                    <turbo-frame id="report_run_<%= report_run.id %>_druid_<%= index %>">
+                      <%= link_to 'Load Cocina JSON',
+                        cocina_report_run_path(report_run, druid: druid, row: index),
+                        data: { turbo_frame: "report_run_#{report_run.id}_druid_#{index}" },
+                        class: 'btn btn-sm btn-outline-secondary mt-2' %>
+                    </turbo-frame>
+                  <% else %>
+                    <div class="result-json mt-2">
+                      <%= pretty_cocina_json(row) %>
+                    </div>
+                  <% end %>
+                </details>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="p-3 text-muted">No rows returned.</div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card shadow-sm sql-sidecar">
+      <div class="card-header">Generated SQL</div>
+      <div class="card-body">
+        <% if report_run.generated_sql.present? %>
+          <%= pretty_sql(report_run.generated_sql) %>
+        <% else %>
+          <p class="text-muted mb-0">SQL will appear here after generation completes.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

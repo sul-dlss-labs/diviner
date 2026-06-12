@@ -44,7 +44,15 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Replace the default in-process memory cache store with a durable alternative.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :solid_cache_store
+  config.active_job.queue_adapter = :solid_queue
+
+  # ActionCable is used by Turbo Streams for live report state updates.
+  config.action_cable.mount_path = ENV.fetch('ACTION_CABLE_PATH', '/cable')
+  allowed_origins = ENV['ACTION_CABLE_ALLOWED_REQUEST_ORIGINS']
+  if allowed_origins.present?
+    config.action_cable.allowed_request_origins = allowed_origins.split(',').map(&:strip).reject(&:empty?)
+  end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

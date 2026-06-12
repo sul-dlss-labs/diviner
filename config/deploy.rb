@@ -7,7 +7,7 @@ set :repo_url, 'https://github.com/sul-dlss-labs/diviner.git'
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/mjgiarlo/#{fetch(:application)}"
+set :deploy_to, "/opt/app/diviner/#{fetch(:application)}"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

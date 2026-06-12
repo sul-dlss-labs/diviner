@@ -1,0 +1,13 @@
+openai_api:
+  base: ~
+  key: ~
+
+default_model: ~
+
+gemini_api:
+  key: ~
+
+vertex_api:
+  key: ~
+  project_id: ~
+  location: ~

@@ -1,0 +1,18 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Past Report Runs</h1>
+    <%= link_to "New report", new_report_run_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="list-group">
+    <% @report_runs.each do |report_run| %>
+      <%= link_to report_run_path(report_run), class: "list-group-item list-group-item-action" do %>
+        <div class="d-flex justify-content-between">
+          <strong>#<%= report_run.id %> - <%= report_run.status %></strong>
+          <small><%= report_run.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+        </div>
+        <div class="text-muted"><%= truncate(report_run.user_request, length: 180) %></div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

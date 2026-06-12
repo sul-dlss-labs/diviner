@@ -1,0 +1,16 @@
+<turbo-frame id="report_run_<%= report_run.id %>_druid_<%= row_id %>">
+  <% if warning.present? %>
+    <div class="alert alert-warning mt-2 mb-2 py-2" role="alert">
+      <%= warning %>
+    </div>
+  <% end %>
+
+  <% if cocina_json.present? %>
+    <div class="small text-muted mb-2"><%= druid %></div>
+    <div class="result-json mt-2">
+      <%= pretty_cocina_json(cocina_json) %>
+    </div>
+  <% elsif warning.blank? %>
+    <div class="text-muted">No Cocina payload returned.</div>
+  <% end %>
+</turbo-frame>

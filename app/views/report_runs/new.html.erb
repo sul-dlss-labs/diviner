@@ -1,0 +1,24 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Diviner Report Builder</h1>
+    <div class="d-flex gap-2">
+      <%= link_to "Past reports", report_runs_path, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
+  </div>
+
+  <p class="text-muted">
+    Describe the report you need. Diviner will generate SQL for the dor-services read-only DB,
+    let you review it, and execute it on approval.
+  </p>
+
+  <%= form_with model: @report_run, url: report_runs_path, class: "card card-body" do |f| %>
+    <div class="mb-3">
+      <%= f.label :user_request, "Report request", class: "form-label" %>
+      <%= f.text_area :user_request, rows: 8, class: "form-control", required: true,
+            placeholder: "Example: Count DROs created per month in 2025, include average file count" %>
+    </div>
+    <div>
+      <%= f.submit "Generate SQL", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

@@ -1,2 +1,126 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+.report-run-page {
+  .summary-pill {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .summary-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 0.04em;
+  }
+
+  .summary-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+  }
+
+  .sql-preview {
+    margin: 0;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background: #f8fafc;
+    color: #1f2937;
+    border: 1px solid #dbe3ee;
+    max-height: 22rem;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 0.82rem;
+  }
+
+  .sql-keyword {
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .sql-sidecar .card-header {
+    font-size: 0.9rem;
+    color: #64748b;
+  }
+
+  .thinking-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .result-item {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .result-summary {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .result-index {
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .result-druid {
+    color: #0f172a;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  }
+
+  .result-json {
+    background: #0f172a;
+    color: #e5e7eb;
+    border-radius: 0.5rem;
+    border: 1px solid #1f2937;
+    padding: 0.75rem;
+    overflow: auto;
+  }
+
+  .json-node {
+    margin-left: 0.2rem;
+  }
+
+  .json-summary {
+    cursor: pointer;
+    color: #93c5fd;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  .json-list {
+    list-style: none;
+    margin: 0.3rem 0 0.3rem 1rem;
+    padding: 0;
+  }
+
+  .json-item {
+    margin: 0.15rem 0;
+  }
+
+  .json-key {
+    color: #fca5a5;
+  }
+
+  .json-string {
+    color: #86efac;
+  }
+
+  .json-number {
+    color: #fde68a;
+  }
+
+  .json-boolean {
+    color: #93c5fd;
+  }
+
+  .json-null {
+    color: #9ca3af;
+  }
+}
