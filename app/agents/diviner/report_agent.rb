@@ -2,7 +2,7 @@
 
 module Diviner
   class ReportAgent < RubyLLM::Agent
-    model 'gemini-3.1-pro-preview', provider: :openai, assume_model_exists: true
+    model Settings.default_model, provider: :openai, assume_model_exists: true
 
     instructions <<~PROMPT
       You are Diviner's Cocina reporting assistant.

@@ -23,7 +23,7 @@ set :deploy_to, "/opt/app/diviner/#{fetch(:application)}"
 # append :linked_files, "config/database.yml" # From puppet
 
 # Default value for linked_dirs is []
-append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
+append :linked_dirs, 'log', 'config/settings', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -42,6 +42,18 @@ set :honeybadger_env, fetch(:stage)
 
 # Set Rails env to production in all deploy environments
 set :rails_env, 'production'
+
+# Deploy passenger-standalone via systemd service
+set :passenger_restart_command, 'sudo systemctl restart passenger'
+set :passenger_restart_options, -> { '' }
+
+# NOTE: Not using shared_configs yet
+# update shared_configs before restarting app (from dlss-capistrano gem)
+# before 'deploy:restart', 'shared_configs:update'
+
+# Manage SolidQueue via systemd (from dlss-capistrano gem)
+set :solid_queue_systemd_role, :app
+set :solid_queue_systemd_use_hooks, true
 
 # configure capistrano-rails to work with propshaft instead of sprockets
 # (we don't have public/assets/.sprockets-manifest* or public/assets/manifest*.*)

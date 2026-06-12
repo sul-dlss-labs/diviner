@@ -17,6 +17,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'puma', '>= 5.0'
   gem 'web-console'
 end
 
@@ -37,7 +38,6 @@ gem 'importmap-rails'
 gem 'okcomputer'
 gem 'pg', '~> 1.1'
 gem 'propshaft'
-gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.1.3'
 gem 'ruby_llm'
 gem 'solid_cable'
